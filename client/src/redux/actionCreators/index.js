@@ -1,8 +1,6 @@
 import {
   CREATE_BOOK_OK,
-  CREATE_BOOK_FAILED,
   GET_BOOKS_OK,
-  GET_BOOKS_FAILED,
   UPDATE_BOOK_OK,
   DISPLAY_ALERT,
   CLEAR_ALERT,
@@ -28,7 +26,12 @@ export const getAllBooks = () => async (dispatch, getState) => {
       },
     });
   } catch (error) {
-    dispatch({ type: GET_BOOKS_FAILED });
+    dispatch(
+      displayAlert(
+        "error",
+        "Failed to get books from the database. Please try again later."
+      )
+    );
   }
 };
 
@@ -40,7 +43,12 @@ export const createBook = (book) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    dispatch({ type: CREATE_BOOK_FAILED });
+    dispatch(
+      displayAlert(
+        "error",
+        "Failed to create book. Please check that you enter all required fields, and unique issn."
+      )
+    );
   }
 };
 

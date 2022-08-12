@@ -9,13 +9,14 @@ import AlertToDisplay from "./components/AlertToDisplay";
 import { getAllBooks } from "./redux/actionCreators";
 
 function App() {
-  const book = useSelector((state) => state.books.book);
-  const showAlert = useSelector((state) => state.books.showAlert);
-  const title = useSelector((state) => state.books.title);
+  const book = useSelector((state) => state.books?.book);
+  const showAlert = useSelector((state) => state.books?.showAlert);
+  const title = useSelector((state) => state.books?.title);
+  const isEditing = useSelector((state) => state.books?.isEditing);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllBooks());
-  }, [dispatch, book, title]);
+  }, [dispatch, book, title, isEditing]);
   return (
     <>
       <HeaderBar />

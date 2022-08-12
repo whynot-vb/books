@@ -2,7 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -85,12 +84,14 @@ export default function PopupForm() {
         onClick={handleClickOpen}
         size="large"
       >
-        {isEditing && bookToEdit ? "EDIT BOOK" : "ADD NEW"}
+        {isEditing && bookToEdit ? "EDIT BOOK HERE" : "ADD NEW"}
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New book</DialogTitle>
+        <DialogTitle>
+          {isEditing && bookToEdit ? "Update Book" : "New book"}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter your new book details</DialogContentText>
+          <DialogContentText>Enter book details</DialogContentText>
           <Paper
             component="form"
             sx={{
@@ -163,10 +164,13 @@ export default function PopupForm() {
                 />
               </LocalizationProvider>
             </div>
-            <Button type="submit">
+            <Button
+              variant="contained"
+              type="submit"
+              style={{ marginLeft: "32%", marginTop: "10px" }}
+            >
               {isEditing && bookToEdit ? "Update A Book" : "Add A Book"}
             </Button>
-            <Button type="submit">Reset</Button>
           </Paper>
         </DialogContent>
       </Dialog>

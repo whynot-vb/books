@@ -1,8 +1,6 @@
 import {
   CREATE_BOOK_OK,
-  CREATE_BOOK_FAILED,
   GET_BOOKS_OK,
-  GET_BOOKS_FAILED,
   DISPLAY_ALERT,
   CLEAR_ALERT,
   EDIT_BOOK,
@@ -15,7 +13,6 @@ const initialState = {
   showAlert: false,
   alertText: "",
   alertType: "",
-  isUpdating: false,
   book: {},
   books: [],
   totalBooks: 0,
@@ -48,27 +45,11 @@ export default function bookReducer(state = initialState, action) {
         book: action.payload.book,
       };
     }
-    case CREATE_BOOK_FAILED: {
-      return {
-        ...state,
-        showAlert: true,
-        alertType: "error",
-        alertText: "Failed to create book at this time. Try again later.",
-      };
-    }
     case GET_BOOKS_OK: {
       return {
         ...state,
         books: action.payload.books,
         totalBooks: action.payload.totalBooks,
-      };
-    }
-    case GET_BOOKS_FAILED: {
-      return {
-        ...state,
-        showAlert: true,
-        alertType: "error",
-        alertText: "Failed to get books at this time. Try again later.",
       };
     }
     case EDIT_BOOK: {

@@ -3,12 +3,13 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CHANGE_TITLE } from "../redux/actionTypes";
 
 export default function SearchBooks() {
   const dispatch = useDispatch();
+  const titl = useSelector((state) => state.books.title);
   const [filterData, setFilterData] = React.useState({
     title: "",
   });
@@ -26,6 +27,7 @@ export default function SearchBooks() {
         title,
       },
     });
+    setFilterData({ title: "" });
   };
   return (
     <Paper
@@ -41,7 +43,11 @@ export default function SearchBooks() {
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Books by Name"
+        placeholder={
+          titl.length === 0
+            ? "Search Books by Name"
+            : "Click Icon To Reset Search Filters"
+        }
         inputProps={{ "aria-label": "search books by name" }}
         name="title"
         value={filterData.title}
