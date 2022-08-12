@@ -1,0 +1,33 @@
+.popup-container {
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+
+.popup-button {
+  margin: 0;
+  position: absolute;
+  left: 47%;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.localization-provider {
+  display: inline-block !important;
+  width: 100%;
+}
+
+.date-picker {
+  margin-top: 30px;
+}
+
+.select-category {
+  width: 90%;
+  margin-top: 20px;
+  margin-left: 8px;
+}
+
+.book-category {
+  width: 100%;
+}

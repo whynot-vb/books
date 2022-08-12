@@ -10,4 +10,3 @@ export const getAllBooks = () => API.get("/books");
 export const updateBook = (id, updatedBook) =>
   API.patch(`/books/${id}`, updatedBook);
 export const getOneBook = (id) => API.get(`/books/${id}`);
-export const deleteBook = (id) => API.delete(`/books/${id}`);

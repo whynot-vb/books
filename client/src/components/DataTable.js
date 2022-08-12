@@ -1,8 +1,11 @@
 import * as React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 
-const renderDetailsButton = (params) => {
+import { EDIT_BOOK } from "../redux/actionTypes";
+
+const renderDetailsButton = (cellValues) => {
   return (
     <strong>
       <Button
@@ -10,7 +13,9 @@ const renderDetailsButton = (params) => {
         color="primary"
         size="small"
         style={{ marginLeft: 16 }}
-        onClick={() => {}}
+        onClick={(_event) => {
+          console.log(cellValues.row);
+        }}
       >
         Edit Book
       </Button>
@@ -32,23 +37,62 @@ const columns = [
   {
     field: "editBook",
     headerName: "Edit Book",
+    sortable: false,
     width: 130,
     renderCell: renderDetailsButton,
     disableClickEventBubbling: true,
   },
 ];
 
-const rows = [
-  { id: 1, title: "Snow", publishDate: "Jon", issn: 32, category: "scifi" },
-  { id: 2, title: "Snow", publishDate: "Jon", issn: 31, category: "scifi" },
-  { id: 3, title: "Snow", publishDate: "Jon", issn: 39, category: "scifi" },
-  { id: 4, title: "Snow", publishDate: "Jon", issn: 54, category: "scifi" },
-  { id: 5, title: "Snow", publishDate: "Jon", issn: 11, category: "scifi" },
-  { id: 6, title: "Snow", publishDate: "Jon", issn: 56, category: "scifi" },
-  { id: 7, title: "Snow", publishDate: "Jon", issn: 46, category: "scifi" },
-];
-
 export default function DataTable() {
+  const dispatch = useDispatch();
+  const books = useSelector((state) => state.books.books);
+  const renderDetailsButton = (cellValues) => {
+    return (
+      <strong>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={(_event) => {
+            console.log(cellValues.row);
+            dispatch({ type: EDIT_BOOK, payload: cellValues.row });
+          }}
+        >
+          Edit Book
+        </Button>
+      </strong>
+    );
+  };
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "title", headerName: "Title", width: 130 },
+    { field: "publishDate", headerName: "Publish Date", width: 130 },
+    { field: "category", headerName: "Category", width: 130 },
+    {
+      field: "issn",
+      headerName: "ISSN",
+      description: "This column is a issn id of the book and is not sortable",
+      sortable: false,
+      width: 130,
+    },
+    {
+      field: "editBook",
+      headerName: "Edit Book",
+      sortable: false,
+      width: 130,
+      renderCell: renderDetailsButton,
+      disableClickEventBubbling: true,
+    },
+  ];
+  const rows = books.map((book) => {
+    return {
+      ...book,
+      id: book._id,
+    };
+  });
+
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
