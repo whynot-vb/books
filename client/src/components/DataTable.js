@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 
 import { EDIT_BOOK } from "../redux/actionTypes";
+import { displayAlert } from "../redux/actionCreators";
 
 const renderDetailsButton = (cellValues) => {
   return (
@@ -58,6 +59,9 @@ export default function DataTable() {
           onClick={(_event) => {
             console.log(cellValues.row);
             dispatch({ type: EDIT_BOOK, payload: cellValues.row });
+            dispatch(
+              displayAlert("success", "Click Edit Book button to update a book")
+            );
           }}
         >
           Edit Book

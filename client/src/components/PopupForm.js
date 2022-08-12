@@ -13,15 +13,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Paper from "@mui/material/Paper";
 import InputLabel from "@mui/material/InputLabel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { displayAlert, createBook } from "../redux/actionCreators";
+import { displayAlert, createBook, updateBook } from "../redux/actionCreators";
 
 import "./components.css";
 
 export default function PopupForm() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const isEditing = useSelector((state) => state.books.isEditing);
+  const bookToEdit = useSelector((state) => state.books.bookToEdit);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,9 +32,6 @@ export default function PopupForm() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // const handleSubmit = () => {};
-  // const handleChange = () => {};
 
   const [bookData, setBookData] = React.useState({
     title: "",
@@ -50,10 +49,6 @@ export default function PopupForm() {
     });
   };
 
-  const handleChange = (e) => {
-    setBookData({ ...bookData, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -66,12 +61,21 @@ export default function PopupForm() {
         displayAlert("error", "You must provide all the required values")
       );
     }
-
-    dispatch(createBook({ ...bookData }));
+    if (!isEditing) {
+      dispatch(createBook({ ...bookData }));
+    } else if (isEditing) {
+      dispatch(updateBook(bookToEdit?._id, { ...bookData }));
+    }
 
     clearValues();
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    if (isEditing && bookToEdit) {
+      setBookData(bookToEdit);
+    }
+  }, [isEditing, bookToEdit]);
 
   return (
     <div className="popup-container">
@@ -81,7 +85,7 @@ export default function PopupForm() {
         onClick={handleClickOpen}
         size="large"
       >
-        ADD NEW
+        {isEditing && bookToEdit ? "EDIT BOOK" : "ADD NEW"}
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New book</DialogTitle>
@@ -159,13 +163,12 @@ export default function PopupForm() {
                 />
               </LocalizationProvider>
             </div>
-            <Button type="submit">Add A Book</Button>
+            <Button type="submit">
+              {isEditing && bookToEdit ? "Update A Book" : "Add A Book"}
+            </Button>
+            <Button type="submit">Reset</Button>
           </Paper>
         </DialogContent>
-        {/* <DialogActions>
-      
-          <Button onClick={handleClose}>Add A Book</Button
-        </DialogActions> */}
       </Dialog>
     </div>
   );

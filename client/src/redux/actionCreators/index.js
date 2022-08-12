@@ -3,11 +3,7 @@ import {
   CREATE_BOOK_FAILED,
   GET_BOOKS_OK,
   GET_BOOKS_FAILED,
-  EDIT_BOOK,
-  SET_UPDATE_BOOK,
-  PREPARE_TO_UPDATE,
   UPDATE_BOOK_OK,
-  UPDATE_BOOK_FAILED,
   DISPLAY_ALERT,
   CLEAR_ALERT,
 } from "../actionTypes";
@@ -20,9 +16,10 @@ export const displayAlert = (alertType, alertText) => async (dispatch) => {
   }, 3000);
 };
 
-export const getAllBooks = () => async (dispatch) => {
+export const getAllBooks = () => async (dispatch, getState) => {
+  const { title } = getState().books;
   try {
-    const { data } = await api.getAllBooks();
+    const { data } = await api.getAllBooks(title);
     dispatch({
       type: GET_BOOKS_OK,
       payload: {
@@ -44,5 +41,19 @@ export const createBook = (book) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({ type: CREATE_BOOK_FAILED });
+  }
+};
+
+export const updateBook = (id, updatedBook) => async (dispatch) => {
+  try {
+    const { data } = await api.updateBook(id, updatedBook);
+    await dispatch({ type: UPDATE_BOOK_OK, payload: data });
+  } catch (error) {
+    dispatch(
+      displayAlert(
+        "error",
+        "Failed to update book at this time. Please try again later."
+      )
+    );
   }
 };

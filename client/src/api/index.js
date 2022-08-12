@@ -5,8 +5,7 @@ const API = axios.create({
 });
 
 export const createBook = (newBook) => API.post("/books", newBook);
-export const getAllBooks = () => API.get("/books");
+export const getAllBooks = (title) => API.get(`/books?title=${title}`);
 
 export const updateBook = (id, updatedBook) =>
   API.patch(`/books/${id}`, updatedBook);
-export const getOneBook = (id) => API.get(`/books/${id}`);

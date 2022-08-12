@@ -6,6 +6,9 @@ import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
   EDIT_BOOK,
+  UPDATE_BOOK_OK,
+  CHANGE_TITLE,
+  CLEAR_TITLE,
 } from "../actionTypes";
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   totalBooks: 0,
   isEditing: false,
   bookToEdit: {},
+  title: "",
 };
 
 export default function bookReducer(state = initialState, action) {
@@ -72,6 +76,28 @@ export default function bookReducer(state = initialState, action) {
         ...state,
         isEditing: true,
         bookToEdit: action.payload,
+      };
+    }
+    case UPDATE_BOOK_OK: {
+      return {
+        ...state,
+        books: state.books.map((book) =>
+          book._id === action.payload._id ? action.payload : book
+        ),
+        isEditing: false,
+        bookToEdit: {},
+      };
+    }
+    case CHANGE_TITLE: {
+      return {
+        ...state,
+        title: action.payload.title,
+      };
+    }
+    case CLEAR_TITLE: {
+      return {
+        ...state,
+        title: "",
       };
     }
     default: {

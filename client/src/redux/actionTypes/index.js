@@ -9,3 +9,6 @@ export const UPDATE_BOOK_FAILED = "UPDATE_BOOK_FAILED";
 export const DISPLAY_ALERT = "DISPLAY_ALERT";
 export const CLEAR_ALERT = "CLEAR_ALERT";
 export const EDIT_BOOK = "EDIT_BOOK";
+export const EDIT_BOOK_FAILED = "EDIT_BOOK_FAILED";
+export const CHANGE_TITLE = "CHANGE_TITLE";
+export const CLEAR_TITLE = "CLEAR_TITLE";

@@ -58,7 +58,14 @@ export const getOneBook = async (req, res) => {
 };
 
 export const getAllBooks = async (req, res) => {
-  let results = Book.find();
+  const { title } = req.query;
+
+  let queryObject = {};
+
+  if (title) {
+    queryObject.title = { $regex: title, $options: "i" };
+  }
+  let results = Book.find(queryObject);
 
   const books = await results;
   const totalBooks = await Book.countDocuments();
