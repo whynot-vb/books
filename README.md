@@ -3,6 +3,8 @@
 1. Clone this repository or download ZIP to you local machine
 2. Run npm install on the server folder (not root) to install dependencies
 3. npm start to start the server on your local machine
+4. Got to the client folder and run npm install to install frontend dependencies
+5. From the client folder run npm start to start the application on your local machine.
 
 ### All requests
 
